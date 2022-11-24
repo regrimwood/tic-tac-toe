@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Square from "./Square";
-import "./board.css";
+import "./Board.css";
 
 const Board = () => {
   const [status, setStatus] = useState("It's o's turn!");
@@ -19,24 +19,30 @@ const Board = () => {
 
   const getStatus = () => {
     const x = document.getElementsByClassName("square");
+
     const currentBoard = [];
+
     for (let i = 0; i < 9; i++) {
       currentBoard.push(x[i].textContent);
     }
+
     const rows = [
       currentBoard.slice(0, 3),
       currentBoard.slice(3, 6),
       currentBoard.slice(6),
     ];
+
     const columns = [
       [rows[0][0], rows[1][0], rows[2][0]],
       [rows[0][1], rows[1][1], rows[2][1]],
       [rows[0][2], rows[1][2], rows[2][2]],
     ];
+
     const diagonals = [
       [rows[0][0], rows[1][1], rows[2][2]],
       [rows[0][2], rows[1][1], rows[2][0]],
     ];
+
     for (let i = 0; i < 3; i++) {
       if (
         rows[i].every((value) => {
@@ -80,6 +86,7 @@ const Board = () => {
     ) {
       return setStatus("o wins!!");
     }
+
     if (status === "o wins!!" || status === "x wins!!") {
       return;
     } else if (status === "It's o's turn!") {
@@ -102,7 +109,7 @@ const Board = () => {
           return <Square id={id} key={id} status={status} />;
         })}
       </ul>
-      <p className="player">{status}</p>
+      <p className="status">{status}</p>
     </>
   );
 };

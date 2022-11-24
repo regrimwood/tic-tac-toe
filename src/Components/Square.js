@@ -4,9 +4,7 @@ const Square = ({ id, status }) => {
   const [symbol, setSymbol] = useState(" ");
 
   const addSymbol = () => {
-    if (status === "o wins!!" || status === "x wins!!") {
-      return;
-    } else if (symbol === " ") {
+    if (symbol === " ") {
       if (status === "It's o's turn!") {
         return setSymbol("o");
       } else if (status === "It's x's turn!") {
