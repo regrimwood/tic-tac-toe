@@ -1,6 +1,12 @@
 export default function getStatus(status, newBoard) {
   const rows = [newBoard.slice(0, 3), newBoard.slice(3, 6), newBoard.slice(6)];
   let newStatus = status;
+  let isTie = true;
+
+  for (const square of newBoard) {
+    if (square.symbol === " ") isTie = false;
+  }
+  if (isTie) newStatus = "tie!";
 
   const columns = [
     [rows[0][0], rows[1][0], rows[2][0]],
@@ -40,12 +46,6 @@ export default function getStatus(status, newBoard) {
   ) {
     newStatus = "o wins!!";
   }
-
-  let isTie = true;
-  for (const square of newBoard) {
-    if (square.symbol === " ") isTie = false;
-  }
-  if (isTie) newStatus = "tie!";
 
   if (newStatus === "It's o's turn!") {
     newStatus = "It's x's turn!";
