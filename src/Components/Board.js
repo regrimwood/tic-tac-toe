@@ -2,114 +2,48 @@ import { useState } from "react";
 import Square from "./Square";
 import "./Board.css";
 
-const Board = () => {
-  const [status, setStatus] = useState("It's o's turn!");
+const initialStatus = "It's o's turn!";
 
-  const ids = [
-    "one",
-    "two",
-    "three",
-    "four",
-    "five",
-    "six",
-    "seven",
-    "eight",
-    "nine",
+const Board = () => {
+  const initialBoard = [
+    { id: 0, symbol: " " },
+    { id: 1, symbol: " " },
+    { id: 2, symbol: " " },
+    { id: 3, symbol: " " },
+    { id: 4, symbol: " " },
+    { id: 5, symbol: " " },
+    { id: 6, symbol: " " },
+    { id: 7, symbol: " " },
+    { id: 8, symbol: " " },
   ];
 
-  const getStatus = () => {
-    const x = document.getElementsByClassName("square");
+  const [status, setStatus] = useState(initialStatus);
+  const [board, setBoard] = useState(initialBoard);
 
-    const currentBoard = [];
-
-    for (let i = 0; i < 9; i++) {
-      currentBoard.push(x[i].textContent);
-    }
-
-    const rows = [
-      currentBoard.slice(0, 3),
-      currentBoard.slice(3, 6),
-      currentBoard.slice(6),
-    ];
-
-    const columns = [
-      [rows[0][0], rows[1][0], rows[2][0]],
-      [rows[0][1], rows[1][1], rows[2][1]],
-      [rows[0][2], rows[1][2], rows[2][2]],
-    ];
-
-    const diagonals = [
-      [rows[0][0], rows[1][1], rows[2][2]],
-      [rows[0][2], rows[1][1], rows[2][0]],
-    ];
-
-    for (let i = 0; i < 3; i++) {
-      if (
-        rows[i].every((value) => {
-          return value === "x";
-        }) ||
-        columns[i].every((value) => {
-          return value === "x";
-        })
-      ) {
-        return setStatus("x wins!!");
-      }
-      if (
-        rows[i].every((value) => {
-          return value === "o";
-        }) ||
-        columns[i].every((value) => {
-          return value === "o";
-        })
-      ) {
-        return setStatus("o wins!!");
-      }
-    }
-
-    if (
-      diagonals[0].every((value) => {
-        return value === "x";
-      }) ||
-      diagonals[1].every((value) => {
-        return value === "x";
-      })
-    ) {
-      return setStatus("x wins!!");
-    }
-    if (
-      diagonals[0].every((value) => {
-        return value === "o";
-      }) ||
-      diagonals[1].every((value) => {
-        return value === "o";
-      })
-    ) {
-      return setStatus("o wins!!");
-    }
-
-    if (status === "o wins!!" || status === "x wins!!") {
-      return;
-    } else if (status === "It's o's turn!") {
-      return setStatus("It's x's turn!");
-    } else if (status === "It's x's turn!") {
-      return setStatus("It's o's turn!");
-    }
-  };
-
-  const clickHandler = async () => {
-    await setTimeout(10);
-    getStatus();
+  const handleReset = () => {
+    setStatus(initialStatus);
+    setBoard(initialBoard);
   };
 
   return (
     <>
       <h1>Tic-tac-toe</h1>
-      <ul className="board" onClick={() => clickHandler()}>
-        {ids.map((id) => {
-          return <Square id={id} key={id} status={status} />;
+      <ul className="board">
+        {board.map((square) => {
+          return (
+            <Square
+              key={square.id}
+              square={square}
+              board={board}
+              setBoard={setBoard}
+              status={status}
+              setStatus={setStatus}
+            />
+          );
         })}
       </ul>
       <p className="status">{status}</p>
+      <button onClick={handleReset}>Reset</button>
     </>
   );
 };

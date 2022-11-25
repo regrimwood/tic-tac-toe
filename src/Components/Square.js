@@ -1,22 +1,24 @@
-import { useState } from "react";
+import getStatus from "../getStatus";
 
-const Square = ({ id, status }) => {
-  const [symbol, setSymbol] = useState(" ");
+const Square = ({ square, board, setBoard, status, setStatus }) => {
+  const { id, symbol } = square;
 
   const addSymbol = () => {
-    if (symbol === " ") {
+    if (symbol === " " && !status.includes("wins")) {
+      const newBoard = board;
       if (status === "It's o's turn!") {
-        return setSymbol("o");
+        newBoard[id].symbol = "o";
       } else if (status === "It's x's turn!") {
-        return setSymbol("x");
+        newBoard[id].symbol = "x";
       }
-    } else {
-      return;
+      const newStatus = getStatus(status, newBoard);
+      setStatus(newStatus);
+      setBoard(newBoard);
     }
   };
 
   return (
-    <li id={id} className="square" onClick={addSymbol}>
+    <li className="square" onClick={addSymbol}>
       {symbol}
     </li>
   );
